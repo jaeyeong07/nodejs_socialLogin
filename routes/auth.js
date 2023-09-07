@@ -8,7 +8,12 @@ passportSerilize()
 router.get("/",(req, res) => {
     console.log(req.user);
     if (!req.user) return res.redirect("/login");
-    res.render("main", { user: req.user });
+    if (req.user.proveider == 'google'){
+        res.render("main",{user: req.user._json.name})
+    } else if (req.user.provider == 'local'){
+        res.render("main", { user: req.user.id });
+    }
+    
 });
 
 
@@ -33,5 +38,12 @@ router.get("/auth/google/callback",passport.authenticate("google", {
         failureRedirect: "/login",
     })
 );
+
+router.get('/logout', function(req, res, next) {
+    req.logout(function(err) {
+      if (err) { return next(err); }
+      res.redirect('/');
+    });
+  });
 
 module.exports = router

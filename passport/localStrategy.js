@@ -41,7 +41,7 @@ module.exports = ()=>{
                     return done(null, false, { message: "Incorrect username." });
                 else if (result === 0)
                     return done(null, false, { message: "Incorrect password." });
-                else return done(null, { id: username });
+                else return done(null, { id: username, provider:"local" });
             }
         )
     );
